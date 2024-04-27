@@ -3,12 +3,14 @@ import 'package:shelf_router/shelf_router.dart';
 
 import '../models/news_model.dart';
 import '../services/generic_service.dart';
+import 'api.dart';
 
-class BlogApi {
+class BlogApi extends Api {
   final GenericService<NewsModel> _service;
   BlogApi(this._service);
-
-  Handler get handler {
+  
+  @override
+  Handler getHandler({List<Middleware>? middleware}) {
     Router router = Router();
 
     //READ
@@ -41,6 +43,6 @@ class BlogApi {
       return Response.ok('BLOG NEWS DELETE');
     });
 
-    return router;
+    return createHandler(router: router, middleware: middleware);
   }
 }
