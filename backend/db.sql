@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `dart`.`usuarios` (
   `password` VARCHAR(255) NOT NULL,
   `is_ativo` TINYINT NULL DEFAULT 1,
   `dt_criacao` datetime DEFAULT CURRENT_TIMESTAMP,
-  `dt_autalizacao` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `dt_atualizacao` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

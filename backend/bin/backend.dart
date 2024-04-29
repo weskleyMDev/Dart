@@ -1,28 +1,26 @@
-import 'package:shelf/shelf.dart';
 import 'package:mysql1/mysql1.dart';
+import 'package:shelf/shelf.dart';
 
 import 'api/blog_api.dart';
 import 'api/login_api.dart';
 import 'infra/custom_server.dart';
+import 'infra/database/db_config.dart';
 import 'infra/dependency_injector/injections/injections.dart';
 import 'infra/middleware_interception.dart';
+import 'models/user_model.dart';
 import 'utils/custom_env.dart';
 
 void main() async {
   CustomEnv.fromFile('.env-dev');
 
-  var conexao = await MySqlConnection.connect(
-    ConnectionSettings(
-      user: await CustomEnv.get<String>(key: "db_user"),
-      password: await CustomEnv.get<String>(key: "db_pass"),
-      db: await CustomEnv.get<String>(key: "db_name"),
-    ),
-  );
-
-  var resultado = await conexao.query("SELECT * FROM dart.usuarios;");
-  print(resultado);
-
   final di = Injections.initializer();
+
+  var conexao = await di.get<DBConfig>().connection;
+  var resultado = await conexao.query("SELECT * FROM dart.usuarios;");
+  for (ResultRow e in resultado) {
+    UserModel user = UserModel.fromMap(e.fields);
+    print(user.toString());
+  }
 
   // di.register<SecurityService>(() => SecurityServiceImp());
   // final securityService = di.get<SecurityService>();
