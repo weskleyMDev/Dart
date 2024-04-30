@@ -3,11 +3,10 @@ import 'package:shelf/shelf.dart';
 
 import 'api/blog_api.dart';
 import 'api/login_api.dart';
+import 'dao/usuario_dao.dart';
 import 'infra/custom_server.dart';
-import 'infra/database/db_config.dart';
 import 'infra/dependency_injector/injections/injections.dart';
 import 'infra/middleware_interception.dart';
-import 'models/user_model.dart';
 import 'utils/custom_env.dart';
 
 void main() async {
@@ -15,12 +14,12 @@ void main() async {
 
   final di = Injections.initializer();
 
-  var conexao = await di.get<DBConfig>().connection;
-  var resultado = await conexao.query("SELECT * FROM dart.usuarios;");
-  for (ResultRow e in resultado) {
-    UserModel user = UserModel.fromMap(e.fields);
-    print(user.toString());
-  }
+  // var conexao = await di.get<DBConfig>().connection;
+
+  final usuarioDAO = await UsuarioDAO().findOne(2);
+  print(usuarioDAO);
+  final usuariosDAO = await UsuarioDAO().findAll();
+  usuariosDAO.forEach(print);
 
   // di.register<SecurityService>(() => SecurityServiceImp());
   // final securityService = di.get<SecurityService>();
