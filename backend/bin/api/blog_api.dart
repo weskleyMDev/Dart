@@ -17,9 +17,9 @@ class BlogApi extends Api {
     Router router = Router();
 
     //READ
-    router.get('/blog/news', (Request resquest) {
-      List<NewsModel> news = _service.findAll();
-      List<String> newsJson = news.map((e) => e.toJson()).toList();
+    router.get('/blog/news', (Request resquest) async {
+      final news = await _service.findAll();
+      final newsJson = news.map((e) => e.toJson()).toList();
       return Response.ok(newsJson.toString());
     });
 
@@ -33,7 +33,7 @@ class BlogApi extends Api {
     //UPDATE
     //http://localhost:8080/blog/news?id=1
     router.put('/blog/news', (Request request) {
-      String? id = request.url.queryParameters['id'];
+      // String? id = request.url.queryParameters['id'];
       // _service.save();
       return Response.ok('BLOG NEWS PUT');
     });

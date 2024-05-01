@@ -20,17 +20,31 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel.create(
-      map['id'] as int,
-      map['nome'] as String,
-      map['email'] as String,
+      map['id']?.toInt() ?? 0,
+      map['nome'] ?? '',
+      map['email'] ?? '',
       map['is_ativo'] == 1,
       map['dt_criacao'],
       map['dt_atualizacao'],
     );
   }
 
+  factory UserModel.fromEmail(Map map) {
+    return UserModel()
+      ..id = map["id"]
+      ..email = map["email"]
+      ..senha = map["senha"];
+  }
+
+  factory UserModel.fromRequest(Map map) {
+    return UserModel()
+      ..nome = map['nome']
+      ..email = map['email']
+      ..senha = map['senha'];
+  }
+
   @override
   String toString() {
-    return 'UserModel(id: $id, nome: $nome, email: $email, isAtivo: $isAtivo, dtCriacao: $dtCriacao, dtAtualizacao: $dtAtualizacao)';
+    return 'UserModel(id: $id, senha: $senha, nome: $nome, email: $email, isAtivo: $isAtivo, dtCriacao: $dtCriacao, dtAtualizacao: $dtAtualizacao)';
   }
 }

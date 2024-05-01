@@ -2,11 +2,10 @@ import 'package:shelf/shelf.dart';
 
 import 'api/blog_api.dart';
 import 'api/login_api.dart';
-import 'dao/usuario_dao.dart';
+import 'api/user_api.dart';
 import 'infra/custom_server.dart';
 import 'infra/dependency_injector/injections/injections.dart';
 import 'infra/middleware_interception.dart';
-import 'models/user_model.dart';
 import 'utils/custom_env.dart';
 
 void main() async {
@@ -14,40 +13,33 @@ void main() async {
 
   final di = Injections.initializer();
 
-  // var conexao = await di.get<DBConfig>().connection;
-
-  // AJUSTA DADOS DO USUARIO
-  final usuario = UserModel()
-    ..nome = "Maria"
-    ..email = "maria@gmail.com"
-    ..senha = "456123"
-    ..id = 4;
+  // var usuario = UserModel()
+  //   ..nome = "Paulo"
+  //   ..email = "paulo@gmail.com"
+  //   ..senha = "456";
 
   // UsuarioDAO().create(usuario); // CRIA UM USUARIO
   // UsuarioDAO().update(usuario); // ATUALIZA UM USUARIO
   // UsuarioDAO().delete(usuario.id!); // DELETA UM USUARIO
 
   // RECUPERA O USUARIO PELO ID
-  // final usuarioDAO = await UsuarioDAO().findOne(4);
+  // final usuarioDAO = await UsuarioDAO().findByEmail('natalia@gmail.com');
+  // final usuarioDAO = await UsuarioDAO().findOne(9);
   // print(usuarioDAO);
 
   // RECUPERA A LISTA DE USUARIOS
-  final usuariosDAO = await UsuarioDAO().findAll();
-  usuariosDAO.forEach(print);
-
-  // di.register<SecurityService>(() => SecurityServiceImp());
-  // final securityService = di.get<SecurityService>();
+  // final usuariosDAO = await UsuarioDAO().findAll();
+  // usuariosDAO.forEach(print);
 
   var cascadeHandler = Cascade()
       .add(di.get<LoginApi>().getHandler())
       .add(di.get<BlogApi>().getHandler(isSecurity: true))
+      .add(di.get<UserApi>().getHandler(isSecurity: true))
       .handler;
 
   var handler = Pipeline()
       .addMiddleware(logRequests())
       .addMiddleware(MiddlewareInterception().middleware)
-      // .addMiddleware(securityService.authorization)
-      // .addMiddleware(securityService.verifyJWT)
       .addHandler(cascadeHandler);
 
   await CustomServer().initialize(

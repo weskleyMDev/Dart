@@ -39,6 +39,13 @@ class UsuarioDAO implements DAO<UserModel> {
     return (res.affectedRows == 0) ? null : usuario;
   }
 
+  Future<UserModel?> findByEmail(String email) async {
+    final res =
+        await _execQuery("SELECT * FROM dart.usuarios WHERE email = '$email';");
+    final user = UserModel.fromMap(res.first.fields);
+    return (res.affectedRows == 0) ? null : user;
+  }
+
   @override
   Future<bool> update(UserModel value) async {
     final res = await _execQuery(
