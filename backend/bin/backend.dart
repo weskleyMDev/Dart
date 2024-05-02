@@ -13,24 +13,6 @@ void main() async {
 
   final di = Injections.initializer();
 
-  // var usuario = UserModel()
-  //   ..nome = "Paulo"
-  //   ..email = "paulo@gmail.com"
-  //   ..senha = "456";
-
-  // UsuarioDAO().create(usuario); // CRIA UM USUARIO
-  // UsuarioDAO().update(usuario); // ATUALIZA UM USUARIO
-  // UsuarioDAO().delete(usuario.id!); // DELETA UM USUARIO
-
-  // RECUPERA O USUARIO PELO ID
-  // final usuarioDAO = await UsuarioDAO().findByEmail('natalia@gmail.com');
-  // final usuarioDAO = await UsuarioDAO().findOne(9);
-  // print(usuarioDAO);
-
-  // RECUPERA A LISTA DE USUARIOS
-  // final usuariosDAO = await UsuarioDAO().findAll();
-  // usuariosDAO.forEach(print);
-
   var cascadeHandler = Cascade()
       .add(di.get<LoginApi>().getHandler())
       .add(di.get<BlogApi>().getHandler(isSecurity: true))

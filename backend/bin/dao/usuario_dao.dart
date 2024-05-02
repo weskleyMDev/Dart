@@ -1,14 +1,12 @@
 import 'package:mysql1/mysql1.dart';
 
 import '../infra/database/db_config.dart';
-import '../infra/dependency_injector/injections/injections.dart';
 import '../models/user_model.dart';
 import 'dao.dart';
 
 class UsuarioDAO implements DAO<UserModel> {
-  // final DBConfig _dbConfig;
-  // UsuarioDAO(this._dbConfig);
-  final di = Injections.initializer();
+  final DBConfig _dbConfig;
+  UsuarioDAO(this._dbConfig);
 
   @override
   Future<bool> create(UserModel value) async {
@@ -54,7 +52,7 @@ class UsuarioDAO implements DAO<UserModel> {
   }
 
   Future<Results> _execQuery(String sql) async {
-    final connect = await di.get<DBConfig>().connection;
+    final connect = await _dbConfig.connection;
     return await connect.query(sql);
   }
 }

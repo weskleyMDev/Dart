@@ -10,7 +10,7 @@ class UserTO {
     var map = jsonDecode(body);
     return UserTO(
       map["email"],
-      map["senha"],
+      map["password"],
     );
   }
 }

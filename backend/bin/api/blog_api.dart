@@ -12,7 +12,6 @@ class BlogApi extends Api {
   @override
   Handler getHandler({
     bool isSecurity = false,
-    // List<Middleware>? middleware,
   }) {
     Router router = Router();
 
@@ -49,7 +48,6 @@ class BlogApi extends Api {
     return createHandler(
       router: router,
       isSecurity: isSecurity,
-      // middleware: middleware,
     );
   }
 }

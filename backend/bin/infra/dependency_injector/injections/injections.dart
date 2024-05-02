@@ -22,7 +22,7 @@ class Injections {
 
     di.register<DBConfig>(() => MySqlDBConfig());
 
-    di.register<UsuarioDAO>(() => UsuarioDAO());
+    di.register<UsuarioDAO>(() => UsuarioDAO(di.get<DBConfig>()));
     di.register<UserService>(() => UserService(di.get<UsuarioDAO>()));
     di.register<UserApi>(() => UserApi(di.get<UserService>()));
 

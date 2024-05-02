@@ -14,7 +14,6 @@ class UserApi extends Api {
   @override
   Handler getHandler({
     bool isSecurity = false,
-    // List<Middleware>? middleware,
   }) {
     final router = Router();
 

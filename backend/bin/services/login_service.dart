@@ -12,15 +12,11 @@ class LoginService {
   Future<int> auth(UserTO to) async {
     try {
       final user = await _service.findByEmail(to.email);
-      if (user == null) {
-        return -1;
-      }
-      print(user.senha);
-      if (Password.verify(to.senha, user.senha!)) {
-        return user.id!;
-      } else {
-        return -1;
-      }
+      return (user == null)
+          ? -1
+          : (Password.verify(to.senha, user.senha!))
+              ? user.id!
+              : -1;
     } catch (e) {
       log('Erro ao autenticar usuário pelo ${to.email}');
     }
