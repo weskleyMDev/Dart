@@ -26,4 +26,10 @@ class MySqlDBConfig implements DBConfig {
     );
     return connection;
   }
+  
+  @override
+  Future execQuery(String sql) async {
+    final connect = await connection;
+    return await connect.query(sql);
+  }
 }

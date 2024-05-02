@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:password_dart/password_dart.dart';
 
 import '../to/user_to.dart';
@@ -18,8 +16,7 @@ class LoginService {
               ? user.id!
               : -1;
     } catch (e) {
-      log('Erro ao autenticar usuário pelo ${to.email}');
+      throw Exception('[$e]Erro ao autenticar usuário pelo email: ${to.email}');
     }
-    return -1;
   }
 }

@@ -1,4 +1,6 @@
 abstract class DBConfig {
   Future<dynamic> createConnection();
-  dynamic get connection;
+  Future<dynamic> get connection;
+
+  Future<dynamic> execQuery(String sql);
 }

@@ -1,50 +1,50 @@
-import 'dart:convert';
-
 class NewsModel {
-  final int id;
-  final String titulo;
-  final String texto;
-  final String image;
-  final DateTime dataAtual;
-  final DateTime? novaData;
+  int? id;
+  String? title;
+  String? description;
+  DateTime? dtCreated;
+  DateTime? dtUpdated;
+  int? userId;
 
-  NewsModel({
-    required this.id,
-    required this.titulo,
-    required this.texto,
-    required this.image,
-    required this.dataAtual,
-    required this.novaData,
-  });
+  NewsModel();
 
-  @override
-  String toString() {
-    return 'NewsModel(id: $id, titulo: $titulo, texto: $texto, image: $image, dataAtual: $dataAtual, novaData: $novaData)';
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'titulo': titulo,
-      'texto': texto,
-      'image': image,
-      'dataAtual': dataAtual.millisecondsSinceEpoch,
-      'novaData': novaData?.millisecondsSinceEpoch,
-    };
-  }
+  NewsModel.create(
+    this.id,
+    this.title,
+    this.description,
+    this.dtCreated,
+    this.dtUpdated,
+    this.userId,
+  );
 
   factory NewsModel.fromMap(Map<String, dynamic> map) {
-    return NewsModel(
-      id: map['id'] as int,
-      titulo: map['titulo'] as String,
-      texto: map['texto'] as String,
-      image: map['image'] as String,
-      dataAtual: DateTime.fromMillisecondsSinceEpoch(map['dataAtual'] as int),
-      novaData: map['novaData'] != null ? DateTime.fromMillisecondsSinceEpoch(map['novaData'] as int) : null,
+    return NewsModel.create(
+      map['id']?.toInt(),
+      map['titulo']?.toString(),
+      map['descricao']?.toString(),
+      map['dt_criacao'],
+      map['dt_atualizacao'],
+      map['id_usuario']?.toInt(),
     );
   }
 
-  String toJson() => json.encode(toMap());
+  factory NewsModel.fromRequest(Map map) {
+    return NewsModel()
+      ..title = map['titulo']
+      ..description = map['descricao']
+      ..userId = map['id_usuario']?.toInt();
+  }
 
-  factory NewsModel.fromJson(String source) => NewsModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  Map toJson() {
+    return {
+      "id": id,
+      "titulo": title,
+      "descricao": description,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'NewsModel(id: $id, title: $title, description: $description, dtCreated: $dtCreated, dtUpdated: $dtUpdated, userId: $userId)';
+  }
 }
