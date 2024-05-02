@@ -30,6 +30,7 @@ class NewsModel {
 
   factory NewsModel.fromRequest(Map map) {
     return NewsModel()
+      ..id = map['id']?.toInt()
       ..title = map['titulo']
       ..description = map['descricao']
       ..userId = map['id_usuario']?.toInt();

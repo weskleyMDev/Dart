@@ -17,34 +17,48 @@ class BlogApi extends Api {
   }) {
     final router = Router();
 
-    //READ
-    router.get('/blog/news', (Request resquest) async {
+    router.get('/blog/news/all', (Request request) async {
       final news = await _blogService.findAll();
       final newsJson = news.map((e) => e.toJson()).toList();
       return Response.ok(newsJson.toString());
     });
 
-    //CREATE
+    //http://localhost:8080/blog/news?id=1
+    router.get('/blog/news', (Request request) async {
+      String? id = request.url.queryParameters['id'];
+      if (id == null) return Response(400);
+      final news = await _blogService.findOne(int.parse(id));
+      return (news != null)
+          ? Response.ok(jsonEncode(news.toJson()))
+          : Response(404);
+    });
+
     router.post('/blog/news', (Request request) async {
       final body = await request.readAsString();
-      final result = await _blogService.save(NewsModel.fromRequest(jsonDecode(body)));
-      return (result) ? Response(201) : Response(500);
+      final result =
+          await _blogService.save(NewsModel.fromRequest(jsonDecode(body)));
+      return (result)
+          ? Response.ok('Noticia salva com sucesso!')
+          : Response(500);
     });
 
-    //UPDATE
-    //http://localhost:8080/blog/news?id=1
-    router.put('/blog/news', (Request request) {
-      // String? id = request.url.queryParameters['id'];
-      // _blogService.save();
-      return Response.ok('BLOG NEWS PUT');
+    router.put('/blog/news', (Request request) async {
+      final body = await request.readAsString();
+      final result =
+          await _blogService.save(NewsModel.fromRequest(jsonDecode(body)));
+      return (result)
+          ? Response.ok('Noticia atualizada com sucesso!')
+          : Response(500);
     });
 
-    //DELETE
     //http://localhost:8080/blog/news?id=1
-    router.delete('/blog/news', (Request request) {
+    router.delete('/blog/news', (Request request) async {
       String? id = request.url.queryParameters['id'];
-      _blogService.delete(int.parse(id!));
-      return Response.ok('BLOG NEWS DELETE');
+      if (id == null) return Response(400);
+      final result = await _blogService.delete(int.parse(id));
+      return result
+          ? Response.ok('Noticia deletada com sucesso!')
+          : Response.internalServerError();
     });
 
     return createHandler(
