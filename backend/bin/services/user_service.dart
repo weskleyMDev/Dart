@@ -26,15 +26,20 @@ class UserService implements GenericService<UserModel> {
   @override
   Future<bool> save(UserModel value) async {
     if (value.id != null) {
+      _hashPassword(value);
       return _usuarioDAO.update(value);
     } else {
-      final hash = Password.hash(value.senha!, PBKDF2());
-      value.senha = hash;
+      _hashPassword(value);
       return _usuarioDAO.create(value);
     }
   }
 
   Future<UserModel?> findByEmail(String email) async {
     return _usuarioDAO.findByEmail(email);
+  }
+
+  _hashPassword(UserModel value) {
+    final hash = Password.hash(value.senha!, PBKDF2());
+    value.senha = hash;
   }
 }

@@ -40,9 +40,19 @@ class UserModel {
 
   factory UserModel.fromRequest(Map map) {
     return UserModel()
+      ..id = map['id']?.toInt()
       ..nome = map['nome']
       ..email = map['email']
       ..senha = map['password'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "nome": nome,
+      "email": email,
+      "is_ativo": isAtivo,
+    };
   }
 
   @override

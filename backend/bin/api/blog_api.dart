@@ -25,7 +25,7 @@ class BlogApi extends Api {
 
     //http://localhost:8080/blog/news?id=1
     router.get('/blog/news', (Request request) async {
-      String? id = request.url.queryParameters['id'];
+      final id = request.url.queryParameters['id'];
       if (id == null) return Response(400);
       final news = await _blogService.findOne(int.parse(id));
       return (news != null)
